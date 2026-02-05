@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>¿Quieres ser mi San Valentín?</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #1a0a2e 0%, #2d1b4e 30%, #4a1942 70%, #1a0a2e 100%);
+      font-family: 'Quicksand', sans-serif;
+      overflow: hidden;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: 
+        radial-gradient(circle at 20% 80%, rgba(255, 105, 180, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 80% 20%, rgba(255, 182, 193, 0.1) 0%, transparent 40%);
+      pointer-events: none;
+    }
+
+    .container {
+      text-align: center;
+      padding: 2rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      color: #ffd1dc;
+      font-size: clamp(1.5rem, 5vw, 2.5rem);
+      margin-bottom: 2.5rem;
+      text-shadow: 0 0 20px rgba(255, 182, 193, 0.3);
+      animation: pulse 3s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.9; }
+    }
+
+    .buttons-wrapper {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      position: relative;
+      min-height: 120px;
+    }
+
+    .btn {
+      padding: 1rem 2rem;
+      font-size: 1.25rem;
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 600;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      position: relative;
+      z-index: 2;
+    }
+
+    .btn:hover {
+      filter: brightness(1.05);
+    }
+
+    .btn-si {
+      background: linear-gradient(135deg, #ff6b9d, #c44569);
+      color: white;
+      box-shadow: 0 4px 20px rgba(255, 107, 157, 0.4);
+      transform-origin: center center;
+      transition: transform 0.35s ease;
+    }
+
+    .btn-si:hover {
+      filter: brightness(1.1);
+      box-shadow: 0 6px 30px rgba(255, 107, 157, 0.5);
+    }
+
+    .btn-no {
+      background: linear-gradient(135deg, #4a4a6a, #2d2d44);
+      color: #e8e8e8;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .btn-no:hover {
+      box-shadow: 0 6px 25px rgba(0, 0, 0, 0.4);
+    }
+
+    .mensaje-final {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, #1a0a2e 0%, #2d1b4e 50%, #4a1942 100%);
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      padding: 2rem;
+      opacity: 0;
+      transition: opacity 0.8s ease;
+    }
+
+    .mensaje-final.visible {
+      display: flex;
+      opacity: 1;
+    }
+
+    .mensaje-final p {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.25rem, 4vw, 2rem);
+      color: #ffd1dc;
+      text-align: center;
+      line-height: 1.6;
+      max-width: 90%;
+      animation: aparecer 1s ease 0.5s both;
+    }
+
+    @keyframes aparecer {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .corazon {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+      animation: latir 1s ease infinite;
+    }
+
+    @keyframes latir {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Nicole, ¿quieres ser mi San Valentín?</h1>
+    <div class="buttons-wrapper">
+      <button class="btn btn-si" id="btnSi">Sí</button>
+      <button class="btn btn-no" id="btnNo">No</button>
+    </div>
+  </div>
+
+  <div class="mensaje-final" id="mensajeFinal">
+    <span class="corazon">❤️</span>
+    <p>Sabía que aceptarías a la primera, nos vemos pronto &lt;3</p>
+  </div>
+
+  <script>
+    const btnSi = document.getElementById('btnSi');
+    const btnNo = document.getElementById('btnNo');
+    const mensajeFinal = document.getElementById('mensajeFinal');
+
+    let escalaSi = 1;
+
+    btnSi.addEventListener('click', function() {
+      mensajeFinal.classList.add('visible');
+    });
+
+    var escalaParaOcultarNo = 50;
+
+    btnNo.addEventListener('click', function() {
+      escalaSi *= 1.1;
+      btnSi.style.transform = 'scale(' + escalaSi + ')';
+      if (escalaSi >= escalaParaOcultarNo) {
+        btnNo.style.display = 'none';
+      }
+    });
+  </script>
+</body>
+</html>
